@@ -26,7 +26,7 @@ KSvgMainWindow::~KSvgMainWindow()
 	delete m_pCanvas;
 }
 
-void KSvgMainWindow::setCustorStyle(KGlobalData::KDrawFlag drawFlag)
+void KSvgMainWindow::setCursorStyle(KGlobalData::KDrawFlag drawFlag)
 {
 	switch (drawFlag)
 	{
@@ -52,7 +52,7 @@ void KSvgMainWindow::setCustorStyle(KGlobalData::KDrawFlag drawFlag)
 void KSvgMainWindow::enterEvent(QEvent* event)
 {
 	KGlobalData::KDrawFlag flag = KGlobalData::getGlobalDataIntance()->getDrawFlag();
-	setCustorStyle(flag);
+	setCursorStyle(flag);
 	QScrollArea::enterEvent(event);
 }
 

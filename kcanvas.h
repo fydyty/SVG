@@ -14,7 +14,7 @@ enum class KTransType
 	Top,
 	TopRight,
 	Left,
-	Contains,// ȫ�� 
+	Contains,
 	Right,
 	BottomLeft,
 	Bottom,
@@ -36,9 +36,9 @@ public:
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	
 
-	KShape* getCurrentShape(const QPoint &pos);;// ��ȡ��ǰλ��ͼ��
-	KTransType getTransType(const QPoint &pos); // ��ȡ�ƶ�����
-	void updateCusorStyle(KGlobalData::KDrawFlag flag, KTransType transType);
+	KShape* getCurrentShape(const QPoint &pos);
+	KTransType getTransType(const QPoint &pos); 
+	void updateCursorStyle(KGlobalData::KDrawFlag flag, KTransType transType);
 	void dragMoveShape(KTransType transType,const QPoint &pos);
 	KShape* getShape();
 	QList <KShape*> getShapeList();
@@ -59,16 +59,16 @@ public:
 private:
 	KShape* m_pCurrentShape;
 	KShape* m_pasteShape;
-	QList <KShape*> m_pShapeList;// �洢��ǰ�����е�ͼ��
+	QList <KShape*> m_pShapeList;
 	QVector <QVector<QPoint>> m_points;
-	QPoint m_lastPos;// ��¼ǰһ�ε�λ��
+	QPoint m_lastPos;
 	QImage m_image;
 	QLabel m_label;
-	KTransType m_TransType;// ��¼�ƶ�����
+	KTransType m_TransType;
 	
-	bool m_isLPress;// ���������
-	bool m_isDrawing;// �Ƿ��ͼ
-	bool m_isSelected;// �Ƿ�Ϊѡ��
+	bool m_isLPress;
+	bool m_isDrawing;
+	bool m_isSelected;
 	bool m_onSelectAll;
 	bool m_isImage;
 };

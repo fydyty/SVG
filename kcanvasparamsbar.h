@@ -23,7 +23,6 @@ private:
 
 	QGridLayout* m_pGridLayout;
 	QVBoxLayout* m_pVBoxLayout;
-	//QString m_title;
 	QLabel* m_pTitleLabel;
 };
 

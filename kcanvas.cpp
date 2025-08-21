@@ -1,4 +1,4 @@
-#include "kcanvas.h"
+﻿#include "kcanvas.h"
 #include "kshapefactory.h"
 
 #include <QInputDialog>
@@ -21,16 +21,13 @@ KCanvas::KCanvas(QWidget* parent)
 {
 	setAttribute(Qt::WA_StyledBackground, true);
 
-	// ���ñ�����ɫΪ��ɫ
 	setStyleSheet("background-color:#FFFFFF");
 
 	KGlobalData::getGlobalDataIntance()->setCanvasColor("FFFFFFFF");
 	resize(KGlobalData::getGlobalDataIntance()->getCanvasWidth(),
 		KGlobalData::getGlobalDataIntance()->getCanvasHeight());
-
-	setMouseTracking(true);//�������׷��
-	setFocusPolicy(Qt::ClickFocus);// ������ȡ����
-
+	setMouseTracking(true);
+	setFocusPolicy(Qt::ClickFocus);
 }
 
 KCanvas::~KCanvas()
@@ -52,7 +49,7 @@ KCanvas::~KCanvas()
 	
 }
 
-// ��ͼ�¼�����
+
 void KCanvas::paintEvent(QPaintEvent* event)
 {
 	if (!m_pShapeList.isEmpty())
@@ -67,14 +64,14 @@ void KCanvas::paintEvent(QPaintEvent* event)
 
 	if (m_pCurrentShape != Q_NULLPTR)
 	{
-		if (m_isDrawing) // ͼ�λ��Ʊ�־Ϊ true�����ʾ���ڻ��Ƹ�ͼ�Σ���ʱ��Ҫ�������»���
+		if (m_isDrawing) 
 		{
 			m_pCurrentShape->initPen();
 			m_pCurrentShape->drawShape(this);
 		}
 			
 
-		if (m_isSelected) // ͼ��ѡ�У������ѡ�п�
+		if (m_isSelected) 
 			m_pCurrentShape->drawOutLine(this);
 	}
 
@@ -88,7 +85,7 @@ void KCanvas::paintEvent(QPaintEvent* event)
 		}
 	}
 
-	if (m_isImage)
+	/*if (m_isImage)
 	{
 		m_label.show();
 		m_label.setGeometry(0, 0, KGlobalData::getGlobalDataIntance()->getCanvasWidth()
@@ -97,12 +94,12 @@ void KCanvas::paintEvent(QPaintEvent* event)
 			* KGlobalData::getGlobalDataIntance()->getCanvasScale());
 		QPixmap pixmap = QPixmap::fromImage(m_image);
 		m_label.setPixmap(pixmap);
-	}
+	}*/
 }
 
 void KCanvas::mousePressEvent(QMouseEvent* event)
 {
-	//��ȡ��ǰ��Ҫ���Ƶ�ͼ������
+
 	KGlobalData::KDrawFlag flag = KGlobalData::getGlobalDataIntance()->getDrawFlag();
 	
 	if (flag == KGlobalData::KDrawFlag::NoneDrawFlag)
@@ -110,15 +107,15 @@ void KCanvas::mousePressEvent(QMouseEvent* event)
 	
 	if (event->buttons() == Qt::LeftButton)
 	{
-		m_isLPress = true;// ��¼�������Ѿ����
+		m_isLPress = true;
 		if (flag == KGlobalData::KDrawFlag::MouseDrawFlag)
 		{
 			m_pCurrentShape = getCurrentShape(event->pos());
 			if (m_pCurrentShape != Q_NULLPTR)
 			{
-				m_lastPos = event->pos();// ��ǰλ���ƶ������λ��(�����)
-				m_isSelected = true;// ����ѡ�б�־
-				m_TransType = getTransType(event->pos());// ��ȡ�ƶ�����
+				m_lastPos = event->pos();
+				m_isSelected = true;
+				m_TransType = getTransType(event->pos());
 			}
 			else
 			{
@@ -175,9 +172,9 @@ void KCanvas::mouseMoveEvent(QMouseEvent* event)
 
 
 	KTransType transType = getTransType(event->pos());
-	updateCusorStyle(flag, transType);//ѡʱѡʽ
+	updateCursorStyle(flag, transType);
 
-	if (event->buttons() != Qt::LeftButton)//bug : ڲѡ״̬ƶƶͼ
+	if (event->buttons() != Qt::LeftButton)
 			return;
 
 
@@ -198,7 +195,7 @@ void KCanvas::mouseMoveEvent(QMouseEvent* event)
 	{
 		if (m_pCurrentShape == Q_NULLPTR)
 			return;
-		dragMoveShape(transType, event->pos() / KGlobalData::getGlobalDataIntance()->getCanvasScale());//ƶѡͼ
+		dragMoveShape(transType, event->pos() / KGlobalData::getGlobalDataIntance()->getCanvasScale());
 	}
 
 	update();
@@ -208,13 +205,13 @@ void KCanvas::mouseReleaseEvent(QMouseEvent* event)
 {
 	KGlobalData::KDrawFlag flag = KGlobalData::getGlobalDataIntance()->getDrawFlag();
 
-	if (m_isLPress) // ºͷţʾƶ߻ͼ
+	if (m_isLPress) 
 	{
-		if (flag != KGlobalData::KDrawFlag::MouseDrawFlag)// ǻͼ
+		if (flag != KGlobalData::KDrawFlag::MouseDrawFlag)
 		{
 			if (m_pCurrentShape != Q_NULLPTR)
 			{
-				if (m_pCurrentShape->isValid())//жͼξǷЧ
+				if (m_pCurrentShape->isValid())
 					m_pCurrentShape->setEndPoint(event->pos() / KGlobalData::getGlobalDataIntance()->getCanvasScale());
 
 				if (flag == KGlobalData::KDrawFlag::PenDrawFlag)
@@ -268,16 +265,12 @@ KTransType KCanvas::getTransType(const QPoint& pos)
 	if (!m_pCurrentShape)
 		return KTransType::None;
 
-	// ��ȡͼ�ξ���
+	
 	QRect rect = m_pCurrentShape->getShapeRect();
 
 	if (!rect.contains(pos))
 		return KTransType::None;
 	
-	//qDebug() << "rect = " << rect.topLeft().x();
-	//qDebug() << "rect = " << rect.topLeft().y();
-
-	// �ж��������ƶ����ֲ���ק�ƶ�
 	if (qAbs(pos.x() - rect.topLeft().x()) < 5 
 			&& qAbs(pos.y() - rect.topLeft().y()) < 5)
 		return KTransType::TopLeft;
@@ -317,14 +310,14 @@ KTransType KCanvas::getTransType(const QPoint& pos)
 	return KTransType::Contains;
 }
 
-void KCanvas::updateCusorStyle(KGlobalData::KDrawFlag flag, KTransType transType)
+void KCanvas::updateCursorStyle(KGlobalData::KDrawFlag flag, KTransType transType)
 {
-	// ����Ѿ�ѡ��
+	
 	if (m_isSelected
 		&& flag == KGlobalData::KDrawFlag::MouseDrawFlag
 		&& transType != KTransType::None)
 	{
-		//TODO���任ͼ��,���ò�ͬ�������ʽ,���ݵ��λ�ã����ò�ͬ�������ʽ
+		
 		if (transType == KTransType::TopLeft || transType == KTransType::BottomRight)
 			setCursor(Qt::SizeFDiagCursor);
 		else if (transType == KTransType::TopRight || transType == KTransType::BottomLeft)
@@ -350,11 +343,9 @@ void KCanvas::dragMoveShape(KTransType transType,const QPoint &pos)
 	case KTransType::None:
 		return;
 	case KTransType::TopLeft:
-		// ��������Ͻǣ���ǰλ��Ϊ�µľ�����ʼλ��
 		m_pCurrentShape->moveTopLeft(pos);
 		break;
 	case KTransType::Top:
-		// ����������ƶ������޸���ʼλ�õ� y ����
 		m_pCurrentShape->moveTop(pos);
 		break;
 	case KTransType::TopRight:
@@ -363,10 +354,10 @@ void KCanvas::dragMoveShape(KTransType transType,const QPoint &pos)
 	case KTransType::Left:
 		m_pCurrentShape->moveLeft(pos);
 		break;
-	case KTransType::Contains: // �����ƶ�
+	case KTransType::Contains: 
 	{
-		// m_lastPos Ϊѡ��ʱ���λ�ã����ƶ������в��ϸ�ֵΪǰһ�ε�λ��
-		QPoint newpos = pos * KGlobalData::getGlobalDataIntance()->getCanvasScale() -  m_lastPos; // ����Ҫ�ƶ���ƫ��
+		
+		QPoint newpos = pos * KGlobalData::getGlobalDataIntance()->getCanvasScale() -  m_lastPos; 
 		m_pCurrentShape->move(newpos / KGlobalData::getGlobalDataIntance()->getCanvasScale());
 		m_lastPos = pos * KGlobalData::getGlobalDataIntance()->getCanvasScale();
 	}

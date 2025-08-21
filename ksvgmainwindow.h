@@ -12,7 +12,7 @@ class KSvgMainWindow : public QScrollArea
 public:
 	KSvgMainWindow(QWidget *parent);
 	~KSvgMainWindow();
-	void setCustorStyle(KGlobalData::KDrawFlag drawFlag);
+	void setCursorStyle(KGlobalData::KDrawFlag drawFlag);
 
 	void enterEvent(QEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
